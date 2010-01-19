@@ -20,13 +20,14 @@ prefix ?= /usr/local
 libdir := $(prefix)/lib
 includedir := $(prefix)/include/ogg
 
-HEADERS = include/ogg/ogg.h
+HEADERS = include/ogg/ogg.h include/ogg/os_types.h
 SOURCES = src/framing.c src/bitwise.c
 
 HEADERS_INST := $(patsubst include/ogg/%,$(includedir)/%,$(HEADERS))
 OBJECTS := $(patsubst %.c,%.o,$(SOURCES))
 
 CFLAGS ?= -O2
+CFLAGS += -Iinclude
 
 .PHONY: install
 
