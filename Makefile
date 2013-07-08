@@ -17,13 +17,14 @@ RANLIB?= ranlib
 RM    ?= rm -f
 
 prefix ?= /usr/local
+destdir ?=
 libdir := $(prefix)/lib
-includedir := $(prefix)/include/ogg
+includedir := $(prefix)/include
 
 HEADERS = include/ogg/ogg.h include/ogg/os_types.h
 SOURCES = src/framing.c src/bitwise.c
 
-HEADERS_INST := $(patsubst include/ogg/%,$(includedir)/%,$(HEADERS))
+HEADERS_INST := $(patsubst include/%,$(destdir)$(includedir)/%,$(HEADERS))
 OBJECTS := $(patsubst %.c,%.o,$(SOURCES))
 
 CFLAGS ?= -O2
@@ -33,17 +34,17 @@ CFLAGS += -Iinclude
 
 all: $(LIB)
 
-$(includedir)/%.h: include/ogg/%.h
-	-@if [ ! -d $(includedir)  ]; then mkdir -p $(includedir); fi
+$(destdir)$(includedir)/%.h: include/ogg/%.h
+	@mkdir -p $(destdir)$(includedir)/$(shell dirname $(patsubst include/%,%,$<))
 	$(QUIET_INSTALL)cp $< $@
 	@chmod 0644 $@
 
-$(libdir)/%.a: %.a
-	-@if [ ! -d $(libdir)  ]; then mkdir -p $(libdir); fi
+$(destdir)$(libdir)/%.a: %.a
+	-@mkdir -p $(destdir)$(libdir)
 	$(QUIET_INSTALL)cp $< $@
 	@chmod 0644 $@
 
-install: $(HEADERS_INST) $(libdir)/$(LIB)
+install: $(HEADERS_INST) $(destdir)$(libdir)/$(LIB)
 
 clean:
 	$(RM) $(OBJECTS) $(LIB) .cflags
