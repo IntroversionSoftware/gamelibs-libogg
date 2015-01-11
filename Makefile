@@ -10,6 +10,8 @@ ifndef V
 endif
 endif
 
+uname_S ?= $(shell uname -s)
+
 LIB    = libogg.a
 AR    ?= ar
 CC    ?= gcc
@@ -29,6 +31,10 @@ OBJECTS := $(patsubst %.c,%.o,$(SOURCES))
 
 CFLAGS ?= -O2
 CFLAGS += -Iinclude
+
+ifneq (,$(findstring CYGWIN,$(uname_S)))
+CFLAGS += -D_WIN32
+endif
 
 .PHONY: install
 
