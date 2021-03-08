@@ -18,10 +18,23 @@
 
 /* make it easy on the folks that want to compile the libs with a
    different malloc than stdlib */
-#define _ogg_malloc  malloc
-#define _ogg_calloc  calloc
-#define _ogg_realloc realloc
-#define _ogg_free    free
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern void* ogg_malloc(size_t size);
+extern void* ogg_calloc(size_t size, size_t n);
+extern void* ogg_realloc(void* p, size_t newsize);
+extern void  ogg_free(void* p);
+
+#ifdef __cplusplus
+}
+#endif
+#define _ogg_malloc  ogg_malloc
+#define _ogg_calloc  ogg_calloc
+#define _ogg_realloc ogg_realloc
+#define _ogg_free    ogg_free
 
 #if defined(_WIN32)
 
