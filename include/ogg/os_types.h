@@ -19,6 +19,8 @@
 /* make it easy on the folks that want to compile the libs with a
    different malloc than stdlib */
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
