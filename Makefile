@@ -68,7 +68,7 @@ $(libdir)/%.a: $(OBJ_DIR)/%.a
 clean:
 	$(RM) -r $(OBJ_DIR)
 
-distclean: clean
+distclean:
 	$(RM) -r $(BUILD_DIR)
 
 $(OBJ_DIR)/$(LIB): $(OBJECTS) | $$(@D)/.
